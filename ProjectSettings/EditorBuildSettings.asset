@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scene/MainMenu.unity
     guid: c5f5ef8b4b6befc4382b2a6240a63786
   - enabled: 1
-    path: Assets/Dynamic Soft Shadows Based on Local Cubemaps/chessroom_shadows.unity
+    path: Assets/Scene/chessroom_shadows.unity
     guid: cb1b461b25ad96f4ca53a8eee9ed6db6
   m_configObjects: {}

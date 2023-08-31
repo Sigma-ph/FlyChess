@@ -41,10 +41,13 @@ public class UnifiedShaderControl : MonoBehaviour
 	Color shadowTint = default;
 
 	public float ShadowsLodFactor { get => shadowsLodFactor; set => shadowsLodFactor = value; }
-
+    private void Awake()
+    {
+		SetShaderData();
+    }
 	void Update()
 	{
-		SetShaderData();
+        SetShaderData();
 	}
 
 	void SetShaderData()

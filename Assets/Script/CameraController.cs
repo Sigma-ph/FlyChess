@@ -41,8 +41,6 @@ public class CameraController : MonoBehaviour
         this.c_camera = GetComponent<Camera>();
         this.init_position = this.transform.position;
         this.init_rotation = this.transform.rotation;
-
-        Debug.Log(c_camera.transform.position);
     }
 
     public static Quaternion RotateObject(Transform targetTransform)

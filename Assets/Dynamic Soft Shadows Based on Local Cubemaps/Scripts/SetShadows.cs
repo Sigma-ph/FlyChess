@@ -29,7 +29,7 @@ public class SetShadows : MonoBehaviour
     [SerializeField]
     Material[] materials = default;
 
-	void OnWillRenderObject()
+	void Awake()
 	{
 		DynamicShadowsCreator.DynamicShadowsData shadowsData = shadowsCamera.GetShadowData();
 

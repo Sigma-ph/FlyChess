@@ -5,6 +5,8 @@ using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using System.Linq;
+using System;
 
 public class LevelScript : MonoBehaviour
 {
@@ -14,21 +16,46 @@ public class LevelScript : MonoBehaviour
     public Button pawn_confirm_button;
     public ChessBoardMgr chess_board_mgr;
     public Camera main_camera;
-    public PlayerColor human_player_color = PlayerColor.Red;
-
+    public Camera uiCamera;
     private CameraController main_camera_controller;
 
-    private List<PlayerColor> players = new List<PlayerColor> { PlayerColor.Red, PlayerColor.Blue, PlayerColor.Green, PlayerColor.Yellow };
+    private List<int> human_player_index = new List<int>();
+    private List<PlayerColor> players = new List<PlayerColor>();
+    private List<int> playerPawnCount = new List<int>();
     private int cur_player_index = 0;
+
+    // 交互完成事件
     private TaskCompletionSource<int> pawnChoseTCS;
     private TaskCompletionSource<bool> rollDiceButtonClickTCS;
+    private TaskCompletionSource<bool> switchNoteTCS;
+    private bool is_playingSwitchNote = false;
 
+    // 被选中的棋子
     private GameObject choosen_pawn = null;
 
     // Current player and his available pawn
     List<int> cur_avai_pawnidx;
+    public RawImage cur_player_image;
+    private List<Texture> player_textures = new List<Texture>();
 
     bool is_choosing_pawn = false;
+
+    // 粒子特效
+    public ParticleSystem diceButtonParticle;
+    public ParticleSystem playerIconParticle;
+
+    // 切换玩家图片
+    public GameObject switchPlayerImage;
+
+    // 骰子永远为6
+    public bool diceSixForever = true;
+
+    // 游戏结束排名面板
+    private List<List<int>> playerSteps = new List<List<int>>();
+    public List<Text> rankTexts;
+    public List<RawImage> rankPlayerIcons;
+    public List<Text> rankStepTexts;
+    public GameObject gameEndPanel;
 
     private void ChangePlayer()
     {
@@ -37,17 +64,119 @@ public class LevelScript : MonoBehaviour
         {
             cur_player_index = 0;
         }
+        cur_player_image.texture = player_textures[cur_player_index];
     }
 
+    private async Task PlaySwitchNote()
+    {
+        //is_playingSwitchNote = true;
+        //switchNoteTCS = new TaskCompletionSource<bool>();
+        RawImage image = switchPlayerImage.GetComponentInChildren<RawImage>();
+        Text text = switchPlayerImage.GetComponentInChildren<Text>();
+
+        for(int i = 0; i < 10; ++i)
+        {
+
+            Color color_i = image.color;
+            color_i.a = 0.1f * (i + 1);
+            image.color = color_i;
+
+            Color color_t = text.color;
+            color_t.a = 0.1f * (i + 1);
+            text.color = color_t;
+            await Task.Delay(50);
+        }
+        await Task.Delay(1000);
+        for (int i = 0; i < 10; ++i)
+        {
+
+            Color color_i = image.color;
+            color_i.a = 0.1f * (9 - i);
+            image.color = color_i;
+
+            Color color_t = text.color;
+            color_t.a = 0.1f * (9 - i);
+            text.color = color_t;
+            await Task.Delay(50);
+        }
+
+    }
+
+    private bool CheckGameEnd()
+    {
+        int remain = 0;
+        foreach (int idx in human_player_index)
+        {
+            remain += playerPawnCount[idx];
+        }
+        if (remain != 0)
+        {
+            return false;
+        }
+
+        playerSteps.Sort((List<int> a, List<int> b) =>
+        {
+            return a[1] - b[1];
+        });
+
+        gameEndPanel.SetActive(true);
+        int rank = 0;
+        foreach(List<int> p in playerSteps)
+        {
+            if (!human_player_index.Contains(p[0]))
+            {
+                continue;
+            }
+            rankPlayerIcons[rank].texture = player_textures[p[0]];
+            rankTexts[rank].text = (rank+1).ToString();
+            rankStepTexts[rank].text = p[1].ToString();
+            rankPlayerIcons[rank].gameObject.SetActive(true);
+            rank++;
+        }
+        RectTransform panelTrans = gameEndPanel.GetComponent<RectTransform>();
+        panelTrans.localPosition = new Vector3(0f, 0f, 0f);
+
+        playerIconParticle.gameObject.SetActive(false);
+        return true;
+    }
     async private Task GameMainLoop()
     {
+        chess_board_mgr.Debug_PawnPlaceTo(3, 11);
+        for(int i=0; i<3; ++i)
+        {
+            chess_board_mgr.PawnRemoveFromBoard(i);
+            playerPawnCount[cur_player_index] -= 1;
+        }
+        
+
+        bool first = true;
         while (true)
         {
-            //await main_camera.GetComponent<CameraController>().SlideToTarget(chess_board_mgr.GetPawnObject(0), 1f);
+            // 检查游戏是否结束
+            if (CheckGameEnd())
+            {
+                break;
+            }
+            
+            // 切换玩家
+            if (!first)
+            {
+                ChangePlayer();
+            }
+            else
+            {
+                first = false;
+            }
+            if (playerPawnCount[cur_player_index] == 0)
+            {
+                continue;
+            }
+            await PlaySwitchNote();
+
 
             // 摇骰子
             int dice_value;
-            if (players[cur_player_index] == human_player_color)
+            if (human_player_index.Contains(cur_player_index))
             {
                 dice_value = await PlayerRollDice();
             }
@@ -56,13 +185,16 @@ public class LevelScript : MonoBehaviour
                 dice_value = await AIRollDice();
             }
 
+            // 玩家摇骰子的次数加一
+            playerSteps[cur_player_index][1] += 1;
+
             // 获取玩家能够选择的棋子
             cur_avai_pawnidx = chess_board_mgr.GetAvailablePawnIdx(players[cur_player_index], dice_value);
             int pawn_id;
             if (cur_avai_pawnidx.Count != 0)
             {
                 // 获取玩家选择的棋子
-                if(players[cur_player_index] == human_player_color)
+                if(human_player_index.Contains(cur_player_index))
                 {
                     pawn_id = await PlayerChoosePawn();
                 }
@@ -73,7 +205,6 @@ public class LevelScript : MonoBehaviour
             }
             else
             {
-                ChangePlayer();
                 continue;
             }
 
@@ -82,7 +213,7 @@ public class LevelScript : MonoBehaviour
             if(!pawn_on_walkpath)
             {
                 await chess_board_mgr.PawnMoveToStart(pawn_id);
-                if(players[cur_player_index] == human_player_color)
+                if(human_player_index.Contains(cur_player_index))
                 {
                     dice_value = await PlayerRollDice();
                 }
@@ -92,12 +223,6 @@ public class LevelScript : MonoBehaviour
                 }
             }
             await chess_board_mgr.PawnMoveForward(pawn_id, dice_value);
-
-            // 处理棋子移动到终点
-            if (chess_board_mgr.PawnCheckToEnd(pawn_id))
-            {
-                chess_board_mgr.PawnRemoveFromBoard(pawn_id);
-            }
 
             // 处理棋子移动到相同颜色的跳跃
             if (chess_board_mgr.PawnCheckSkip(pawn_id))
@@ -112,8 +237,15 @@ public class LevelScript : MonoBehaviour
                 await chess_board_mgr.PawnKickBackToStandby(kick_back_list);
             }
 
-            // 切换玩家
-            ChangePlayer();
+            // 处理棋子移动到终点
+            if (chess_board_mgr.PawnCheckToEnd(pawn_id))
+            {
+                await Task.Delay(1000);
+                chess_board_mgr.PawnRemoveFromBoard(pawn_id);
+                playerPawnCount[cur_player_index] -= 1;
+            }
+
+            
 
         }
     }
@@ -121,12 +253,35 @@ public class LevelScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        int playerCount=1, aiCount=1;
+        if (PlayerPrefs.HasKey("playerCount") && PlayerPrefs.HasKey("aiCount"))
+        {
+            playerCount = PlayerPrefs.GetInt("playerCount");
+            aiCount = PlayerPrefs.GetInt("aiCount");
+        }
+
+        List<string> text_name = new List<string> { "red_pawn", "green_pawn", "blue_pawn", "yellow_pawn" };
+        for(int i=0; i<4; ++i)
+        {
+            Texture texture = Resources.Load<Texture>("images/" + text_name[i]);
+            player_textures.Add(texture);
+        }
+        
+        
+        for (int i=0; i<playerCount+aiCount; ++i)
+        {
+            players.Add((PlayerColor)i);
+            playerPawnCount.Add(4);
+            playerSteps.Add(new List<int> { i, 0 });
+        }
+        for(int i=0; i<playerCount; ++i)
+        {
+            human_player_index.Add(i);
+        }
         
         chess_board_mgr.InitGameMode(players);
         pawn_confirm_button.gameObject.SetActive(false);
         main_camera_controller = main_camera.GetComponent<CameraController>();
-
-        //chess_board_mgr.Debug_PawnPlaceTo(0, 10);
         GameMainLoop();
         
     }
@@ -146,6 +301,11 @@ public class LevelScript : MonoBehaviour
     }
     public async Task<int> PlayerChoosePawn()
     {
+        foreach (int id in cur_avai_pawnidx)
+        {
+            chess_board_mgr.PawnStartToBlink(id);
+        }
+
         is_choosing_pawn = true;
         pawn_confirm_button.interactable = false;
         pawn_confirm_button.gameObject.SetActive(true);
@@ -157,6 +317,11 @@ public class LevelScript : MonoBehaviour
         is_choosing_pawn = false;
         pawn_confirm_button.gameObject.SetActive(false);
         pawn_confirm_button.interactable = false;
+
+        foreach (int id in cur_avai_pawnidx)
+        {
+            chess_board_mgr.PawnStopBlinking(id);
+        }
         return choosen_pawnid;
     } 
 
@@ -169,14 +334,21 @@ public class LevelScript : MonoBehaviour
 
     public async Task<int> PlayerRollDice()
     {
+        // 设置按钮可交互状态
+        diceButtonParticle.gameObject.SetActive(true);
+        diceButtonParticle.Play();
         roll_dice_button.interactable = true;
         rollDiceButtonClickTCS = new TaskCompletionSource<bool>();
         await rollDiceButtonClickTCS.Task;
-        roll_dice_button.interactable = false;
-        int dice_value = await RollADice();
 
+        // 设置按钮不可交互状态
+        roll_dice_button.interactable = false;
+        diceButtonParticle.Pause();
+        diceButtonParticle.gameObject.SetActive(false);
+        
+        // 抛骰子
+        int dice_value = await RollADice();
         await main_camera_controller.LookAtDiceValue(dice);
-        dice_value = 6;
         return dice_value;
     }
 
@@ -188,7 +360,7 @@ public class LevelScript : MonoBehaviour
         dice_con.StartToRoll();
         int dice_value = await dice_con.GetDiceValue();
         Debug.Log(dice_value);
-        dice_value = 6;
+        dice_value = diceSixForever ? 6 : dice_value;
         return dice_value;
     }
 
@@ -212,29 +384,50 @@ public class LevelScript : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
+            // 将已选中的棋子取消选中
+            if (choosen_pawn != null)
+            {
+                PawnController temp_con = choosen_pawn.GetComponent<PawnController>();
+                temp_con.StopLighting();
+            }
             GameObject hit_obj = hit.collider.gameObject;
             PawnController pawn_con = hit_obj.gameObject.GetComponent<PawnController>();
             if (pawn_con != null && cur_avai_pawnidx.Contains(pawn_con.pawn_id))
             {
                 this.choosen_pawn = hit_obj;
                 pawn_confirm_button.interactable = true;
+
+                // 选中棋子
+                pawn_con.StarToLight();
                 //pawnChoseTCS.TrySetResult(pawn_con.pawn_id);
             }
-            else if(pawn_confirm_button.IsActive())
+            else if(pawn_confirm_button.interactable)
             {
                 RectTransform confirm_btn_rect = pawn_confirm_button.GetComponent<RectTransform>();
+                
                 Vector3 mousePosition = Input.mousePosition;
-                Vector3 worldMousePosition = main_camera.ScreenToWorldPoint(mousePosition);
-                if (!RectTransformUtility.RectangleContainsScreenPoint(confirm_btn_rect, mousePosition))
+                Vector3 worldMousePosition = uiCamera.ScreenToWorldPoint(mousePosition);
+                if (!RectTransformUtility.RectangleContainsScreenPoint(confirm_btn_rect, worldMousePosition))
                 {
                     pawn_confirm_button.interactable = false;
                 }
-
+                // 取消选中
+                if (choosen_pawn != null)
+                {
+                    PawnController temp_con = choosen_pawn.GetComponent<PawnController>();
+                    temp_con.StopLighting();
+                }
             }
         }
         else
         {
             pawn_confirm_button.interactable = false;
+            // 取消选中
+            if (choosen_pawn != null)
+            {
+                PawnController temp_con = choosen_pawn.GetComponent<PawnController>();
+                temp_con.StopLighting();
+            }
         }
     }
 }

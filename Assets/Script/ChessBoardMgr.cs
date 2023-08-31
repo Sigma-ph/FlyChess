@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -5,6 +6,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.X86.Sse4_2;
@@ -30,7 +32,7 @@ public class ChessBoardMgr : MonoBehaviour
     private static float height_offset = 2.6f, horizon_offset = 3f;
     private float[,] standby_offset = new float[4,2]{ { horizon_offset, horizon_offset }, { -horizon_offset, horizon_offset }, 
                                                     {horizon_offset, -horizon_offset }, {-horizon_offset, -horizon_offset } };
-    Dictionary<int, int> special_skip_to = new Dictionary<int, int> { { 33, 45 }, { 19, 31 }, { 5, 17 }, { 47, 3 }, { 53, -1 }, { 39, -1 }, { 25, -1 } };
+    Dictionary<int, int> special_skip_to = new Dictionary<int, int> { { 33, 45 }, { 19, 31 }, { 5, 17 }, { 47, 3 }, { 53, -1 }, { 39, -1 }, { 25, -1 }, {11, -1} };
     Dictionary<int, int> index_end_to = new Dictionary<int, int> { { 11, 56 }, { 53, 61 }, { 39, 66 }, { 25, 71 } };
     private readonly int[] start_idx = { 77, 78, 79, 80 };
     private readonly int[] start_next_idx = { 14, 0, 42, 28 };
@@ -289,6 +291,34 @@ public class ChessBoardMgr : MonoBehaviour
             await controller.JumpToPoint(new JumpInfo(walk_path[next_plane_idx].position));
             --step;
         }
+    }
+
+    public void PawnStartToBlink(int pawn_id)
+    {
+        GameObject pawn = pawn_ref[pawn_id];
+        PawnController controller = pawn.GetComponent<PawnController>();
+        controller.StartToBlink();
+    }
+
+    public void PawnStopBlinking(int pawn_id)
+    {
+        GameObject pawn = pawn_ref[pawn_id];
+        PawnController controller = pawn.GetComponent<PawnController>();
+        controller.StopBlinking();
+    }
+
+    public void PawnStartLight(int pawn_id)
+    {
+        GameObject pawn = pawn_ref[pawn_id];
+        PawnController controller = pawn.GetComponent<PawnController>();
+        controller.StarToLight();
+    }
+
+    public void PawnStopLighting(int pawn_id)
+    {
+        GameObject pawn = pawn_ref[pawn_id];
+        PawnController controller = pawn.GetComponent<PawnController>();
+        controller.StopLighting();
     }
 
     public GameObject GetPawnObject(int pawn_id)

@@ -174,7 +174,7 @@ Shader "Custom/roomShadows" {
 
 			#if CUBEMAP_RENDERING_OFF
 	           	// Combine colors to get the final pixel color
-		        finalColor = _AmbientColor * Color   +  Color *  shadowsCombiColor * _LightToShadowsContrast;
+				finalColor = _AmbientColor * Color + Color *  shadowsCombiColor * _LightToShadowsContrast;
             #endif
             
             return finalColor;

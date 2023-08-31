@@ -75,6 +75,8 @@ public class MainMenu : MonoBehaviour
 
     public void OnStartButtonClick()
     {
-        SceneManager.LoadScene("Assets/Dynamic Soft Shadows Based on Local Cubemaps/chessroom_shadows");
+        PlayerPrefs.SetInt("playerCount", playerCount);
+        PlayerPrefs.SetInt("aiCount", aiCount);
+        SceneManager.LoadScene(1);
     }
 }

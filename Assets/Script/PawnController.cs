@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using UnityEditor.UI;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -41,14 +43,28 @@ public class PawnController : MonoBehaviour
     private float jumpStartTime;          // 跳跃开始时间
     private Vector3 jump_start_pos;
 
+    private bool isBlinking = false;
+    private bool isLighting = false;
 
     private TaskCompletionSource<bool> jumpTCS;
 
+    // 棋子渲染组件
+    MeshRenderer render;
+    MaterialPropertyBlock block;
+
+    public void Start()
+    {
+        this.render = this.gameObject.GetComponentInChildren<MeshRenderer>();
+        block = new MaterialPropertyBlock();
+        
+    }
     public void Init(int id, PlayerColor color, Vector3 pos)
     {
         this.pawn_id = id;
         this.color = color;
         this.transform.position = pos;
+
+        
     }
 
     public async Task KickBackToPoint(JumpInfo info)
@@ -67,6 +83,32 @@ public class PawnController : MonoBehaviour
         isJumping = false;
         await Task.Delay((int)info.jump_duration * 1000);
     } 
+
+    public void StartToBlink()
+    {
+        isBlinking = true;
+    }
+
+    public void StopBlinking()
+    {
+        isBlinking = false;
+        block.SetColor("_EmitLight", new Vector4(0.0f, 0.0f, 0.0f, 1));
+        render.SetPropertyBlock(block);
+    }
+
+    public void StarToLight()
+    {
+        block.SetColor("_EmitLight", new Vector4(0.9f, 0.9f, 0.9f, 1));
+        render.SetPropertyBlock(block);
+        isLighting = true;
+    }
+
+    public void StopLighting()
+    {
+        block.SetColor("_EmitLight", new Vector4(0.0f, 0.0f, 0.0f, 1));
+        render.SetPropertyBlock(block);
+        isLighting = false;
+    }
 
     void Update()
     {
@@ -95,6 +137,15 @@ public class PawnController : MonoBehaviour
                 jump_start_pos = transform.position; // 设置新的棋子位置
                 jumpTCS.TrySetResult(true);
             }
+
+            
+        }
+
+        if (!isLighting && isBlinking)
+        {
+            float e_light = Mathf.Abs(Mathf.Sin(Time.time) / 1.4f);
+            block.SetColor("_EmitLight", new Vector4(e_light, e_light, e_light, 1));
+            render.SetPropertyBlock(block);
         }
     }
 }
