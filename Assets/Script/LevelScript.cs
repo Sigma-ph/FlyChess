@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Rendering;
 using System.Linq;
 using System;
+using DG.Tweening;
 
 public class LevelScript : MonoBehaviour
 {
@@ -27,8 +28,6 @@ public class LevelScript : MonoBehaviour
     // 交互完成事件
     private TaskCompletionSource<int> pawnChoseTCS;
     private TaskCompletionSource<bool> rollDiceButtonClickTCS;
-    private TaskCompletionSource<bool> switchNoteTCS;
-    private bool is_playingSwitchNote = false;
 
     // 被选中的棋子
     private GameObject choosen_pawn = null;
@@ -69,36 +68,23 @@ public class LevelScript : MonoBehaviour
 
     private async Task PlaySwitchNote()
     {
-        //is_playingSwitchNote = true;
-        //switchNoteTCS = new TaskCompletionSource<bool>();
-        RawImage image = switchPlayerImage.GetComponentInChildren<RawImage>();
+        Image image = switchPlayerImage.GetComponentInChildren<Image>();
         Text text = switchPlayerImage.GetComponentInChildren<Text>();
+        Task t3 = switchPlayerImage.transform.DOLocalMoveX(-792, 0.5f).From().SetEase(Ease.OutSine).AsyncWaitForCompletion();
+        Task t1 = image.DOFade(1, 1f).AsyncWaitForCompletion();
+        Task t2 = text.DOFade(1, 1f).AsyncWaitForCompletion();
+        await Task.WhenAll(t1, t2, t3);
 
-        for(int i = 0; i < 10; ++i)
-        {
-
-            Color color_i = image.color;
-            color_i.a = 0.1f * (i + 1);
-            image.color = color_i;
-
-            Color color_t = text.color;
-            color_t.a = 0.1f * (i + 1);
-            text.color = color_t;
-            await Task.Delay(50);
-        }
         await Task.Delay(1000);
-        for (int i = 0; i < 10; ++i)
-        {
 
-            Color color_i = image.color;
-            color_i.a = 0.1f * (9 - i);
-            image.color = color_i;
+        t1 = image.DOFade(0, 1f).AsyncWaitForCompletion();
+        t2 = text.DOFade(0, 1f).AsyncWaitForCompletion();
+        t3 = switchPlayerImage.transform.DOLocalMoveX(792, 0.5f).SetEase(Ease.InSine).AsyncWaitForCompletion();
+        await Task.WhenAll(t1, t2, t3);
 
-            Color color_t = text.color;
-            color_t.a = 0.1f * (9 - i);
-            text.color = color_t;
-            await Task.Delay(50);
-        }
+        Vector3 pos = switchPlayerImage.transform.localPosition;
+        pos.x = 0;
+        switchPlayerImage.transform.localPosition = pos;
 
     }
 

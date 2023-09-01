@@ -77,6 +77,6 @@ public class MainMenu : MonoBehaviour
     {
         PlayerPrefs.SetInt("playerCount", playerCount);
         PlayerPrefs.SetInt("aiCount", aiCount);
-        SceneManager.LoadScene(1);
+        //SceneManager.LoadScene(1);
     }
 }
