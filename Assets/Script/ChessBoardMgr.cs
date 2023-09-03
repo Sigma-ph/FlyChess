@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
-using static Unity.Burst.Intrinsics.X86.Sse4_2;
 
 public enum PlayerColor
 {

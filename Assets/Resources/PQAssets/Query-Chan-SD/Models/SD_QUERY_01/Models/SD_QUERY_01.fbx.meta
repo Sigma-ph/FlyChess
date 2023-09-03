@@ -1,152 +1,385 @@
 fileFormatVersion: 2
 guid: e98d03431d919284ebedb75777915ba5
 ModelImporter:
-  serializedVersion: 18
-  fileIDToRecycleName:
-    100000: ahoge
-    100002: body
-    100004: earphone
-    100006: face
-    100008: hair
-    100010: hair_top
-    100012: hat_defo
-    100014: head
-    100016: hip
-    100018: L_arm
-    100020: L_arm2
-    100022: L_foot
-    100024: L_hand
-    100026: L_leg
-    100028: L_leg2
-    100030: leg
-    100032: R_arm
-    100034: R_arm2
-    100036: R_foot
-    100038: R_hand
-    100040: R_leg
-    100042: R_leg2
-    100044: //RootNode
-    100046: SD_QUERY_01
-    100048: SD_QUERY_01_Reference
-    100050: spine
-    100052: upper
-    400000: ahoge
-    400002: body
-    400004: earphone
-    400006: face
-    400008: hair
-    400010: hair_top
-    400012: hat_defo
-    400014: head
-    400016: hip
-    400018: L_arm
-    400020: L_arm2
-    400022: L_foot
-    400024: L_hand
-    400026: L_leg
-    400028: L_leg2
-    400030: leg
-    400032: R_arm
-    400034: R_arm2
-    400036: R_foot
-    400038: R_hand
-    400040: R_leg
-    400042: R_leg2
-    400044: //RootNode
-    400046: SD_QUERY_01
-    400048: SD_QUERY_01_Reference
-    400050: spine
-    400052: upper
-    2300000: body
-    2300002: earphone
-    2300004: face
-    2300006: hair
-    2300008: hair_top
-    2300010: hat_defo
-    2300012: leg
-    3300000: body
-    3300002: earphone
-    3300004: face
-    3300006: hair
-    3300008: hair_top
-    3300010: hat_defo
-    3300012: leg
-    4300000: hat_defo
-    4300002: body
-    4300004: face
-    4300006: earphone
-    4300008: hair_top
-    4300010: hair
-    4300012: leg
-    7400000: 0000_Def
-    7400002: 0001_Stand
-    7400004: 0002_Walk
-    7400006: 0003_Run
-    7400008: 0004_Idle
-    7400010: 0005_Damage
-    7400012: 0006_Itemget
-    7400014: 0007_Lose
-    7400016: 0008_Win
-    7400018: 0009_Fly_Idle
-    7400020: 0010_Fly_Straight
-    7400022: 0011_Fly_Left
-    7400024: 0013_Fly_Up
-    7400026: 0014_Fly_Down
-    7400028: 0015_Fly_Circle
-    7400030: 0016_Fly_Turnback
-    7400032: 0050_Pose_Cute
-    7400034: 0051_Pose_Hello
-    7400036: 0052_Pose_Ready
-    7400038: 0053_Pose_Stop
-    7400040: 0054_Pose_Bow
-    7400042: 0055_Pose_Armcrossed
-    7400044: 0056_Pose_Please
-    7400046: 0057_Pose_Sit
-    7400048: 0058_Pose_Laydown
-    7400050: 0059_Pose_Romance
-    7400052: 0012_Fly_Right
-    9500000: //RootNode
-    11100000: //RootNode
-    13700000: body
-    13700002: earphone
-    13700004: face
-    13700006: hair
-    13700008: hair_top
-    13700010: hat_defo
-    13700012: leg
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: ahoge
+  - first:
+      1: 100002
+    second: body
+  - first:
+      1: 100004
+    second: earphone
+  - first:
+      1: 100006
+    second: face
+  - first:
+      1: 100008
+    second: hair
+  - first:
+      1: 100010
+    second: hair_top
+  - first:
+      1: 100012
+    second: hat_defo
+  - first:
+      1: 100014
+    second: head
+  - first:
+      1: 100016
+    second: hip
+  - first:
+      1: 100018
+    second: L_arm
+  - first:
+      1: 100020
+    second: L_arm2
+  - first:
+      1: 100022
+    second: L_foot
+  - first:
+      1: 100024
+    second: L_hand
+  - first:
+      1: 100026
+    second: L_leg
+  - first:
+      1: 100028
+    second: L_leg2
+  - first:
+      1: 100030
+    second: leg
+  - first:
+      1: 100032
+    second: R_arm
+  - first:
+      1: 100034
+    second: R_arm2
+  - first:
+      1: 100036
+    second: R_foot
+  - first:
+      1: 100038
+    second: R_hand
+  - first:
+      1: 100040
+    second: R_leg
+  - first:
+      1: 100042
+    second: R_leg2
+  - first:
+      1: 100044
+    second: //RootNode
+  - first:
+      1: 100046
+    second: SD_QUERY_01
+  - first:
+      1: 100048
+    second: SD_QUERY_01_Reference
+  - first:
+      1: 100050
+    second: spine
+  - first:
+      1: 100052
+    second: upper
+  - first:
+      4: 400000
+    second: ahoge
+  - first:
+      4: 400002
+    second: body
+  - first:
+      4: 400004
+    second: earphone
+  - first:
+      4: 400006
+    second: face
+  - first:
+      4: 400008
+    second: hair
+  - first:
+      4: 400010
+    second: hair_top
+  - first:
+      4: 400012
+    second: hat_defo
+  - first:
+      4: 400014
+    second: head
+  - first:
+      4: 400016
+    second: hip
+  - first:
+      4: 400018
+    second: L_arm
+  - first:
+      4: 400020
+    second: L_arm2
+  - first:
+      4: 400022
+    second: L_foot
+  - first:
+      4: 400024
+    second: L_hand
+  - first:
+      4: 400026
+    second: L_leg
+  - first:
+      4: 400028
+    second: L_leg2
+  - first:
+      4: 400030
+    second: leg
+  - first:
+      4: 400032
+    second: R_arm
+  - first:
+      4: 400034
+    second: R_arm2
+  - first:
+      4: 400036
+    second: R_foot
+  - first:
+      4: 400038
+    second: R_hand
+  - first:
+      4: 400040
+    second: R_leg
+  - first:
+      4: 400042
+    second: R_leg2
+  - first:
+      4: 400044
+    second: //RootNode
+  - first:
+      4: 400046
+    second: SD_QUERY_01
+  - first:
+      4: 400048
+    second: SD_QUERY_01_Reference
+  - first:
+      4: 400050
+    second: spine
+  - first:
+      4: 400052
+    second: upper
+  - first:
+      23: 2300000
+    second: body
+  - first:
+      23: 2300002
+    second: earphone
+  - first:
+      23: 2300004
+    second: face
+  - first:
+      23: 2300006
+    second: hair
+  - first:
+      23: 2300008
+    second: hair_top
+  - first:
+      23: 2300010
+    second: hat_defo
+  - first:
+      23: 2300012
+    second: leg
+  - first:
+      33: 3300000
+    second: body
+  - first:
+      33: 3300002
+    second: earphone
+  - first:
+      33: 3300004
+    second: face
+  - first:
+      33: 3300006
+    second: hair
+  - first:
+      33: 3300008
+    second: hair_top
+  - first:
+      33: 3300010
+    second: hat_defo
+  - first:
+      33: 3300012
+    second: leg
+  - first:
+      43: 4300000
+    second: hat_defo
+  - first:
+      43: 4300002
+    second: body
+  - first:
+      43: 4300004
+    second: face
+  - first:
+      43: 4300006
+    second: earphone
+  - first:
+      43: 4300008
+    second: hair_top
+  - first:
+      43: 4300010
+    second: hair
+  - first:
+      43: 4300012
+    second: leg
+  - first:
+      74: 7400000
+    second: 0000_Def
+  - first:
+      74: 7400002
+    second: 0001_Stand
+  - first:
+      74: 7400004
+    second: 0002_Walk
+  - first:
+      74: 7400006
+    second: 0003_Run
+  - first:
+      74: 7400008
+    second: 0004_Idle
+  - first:
+      74: 7400010
+    second: 0005_Damage
+  - first:
+      74: 7400012
+    second: 0006_Itemget
+  - first:
+      74: 7400014
+    second: 0007_Lose
+  - first:
+      74: 7400016
+    second: 0008_Win
+  - first:
+      74: 7400018
+    second: 0009_Fly_Idle
+  - first:
+      74: 7400020
+    second: 0010_Fly_Straight
+  - first:
+      74: 7400022
+    second: 0011_Fly_Left
+  - first:
+      74: 7400024
+    second: 0013_Fly_Up
+  - first:
+      74: 7400026
+    second: 0014_Fly_Down
+  - first:
+      74: 7400028
+    second: 0015_Fly_Circle
+  - first:
+      74: 7400030
+    second: 0016_Fly_Turnback
+  - first:
+      74: 7400032
+    second: 0050_Pose_Cute
+  - first:
+      74: 7400034
+    second: 0051_Pose_Hello
+  - first:
+      74: 7400036
+    second: 0052_Pose_Ready
+  - first:
+      74: 7400038
+    second: 0053_Pose_Stop
+  - first:
+      74: 7400040
+    second: 0054_Pose_Bow
+  - first:
+      74: 7400042
+    second: 0055_Pose_Armcrossed
+  - first:
+      74: 7400044
+    second: 0056_Pose_Please
+  - first:
+      74: 7400046
+    second: 0057_Pose_Sit
+  - first:
+      74: 7400048
+    second: 0058_Pose_Laydown
+  - first:
+      74: 7400050
+    second: 0059_Pose_Romance
+  - first:
+      74: 7400052
+    second: 0012_Fly_Right
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      111: 11100000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: body
+  - first:
+      137: 13700002
+    second: earphone
+  - first:
+      137: 13700004
+    second: face
+  - first:
+      137: 13700006
+    second: hair
+  - first:
+      137: 13700008
+    second: hair_top
+  - first:
+      137: 13700010
+    second: hat_defo
+  - first:
+      137: 13700012
+    second: leg
+  externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
+    resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'spine' has translation animation that will
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'spine' has translation animation that will
       be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
-    animationRotationError: .5
-    animationPositionError: .5
-    animationScaleError: .5
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: 0000_Def
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
-      lastFrame: .100000001
+      lastFrame: 0.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -217,16 +450,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0001_Stand
       takeName: Take 001
+      internalID: 0
       firstFrame: 1
-      lastFrame: 1.10000002
+      lastFrame: 1.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -297,9 +533,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0002_Walk
       takeName: Take 001
+      internalID: 0
       firstFrame: 2
       lastFrame: 64
       wrapMode: 0
@@ -307,6 +545,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
@@ -377,9 +616,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0003_Run
       takeName: Take 001
+      internalID: 0
       firstFrame: 70
       lastFrame: 110
       wrapMode: 0
@@ -387,6 +628,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
@@ -457,9 +699,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0004_Idle
       takeName: Take 001
+      internalID: 0
       firstFrame: 120
       lastFrame: 180
       wrapMode: 0
@@ -467,6 +711,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
@@ -537,9 +782,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0005_Damage
       takeName: Take 001
+      internalID: 0
       firstFrame: 180
       lastFrame: 240
       wrapMode: 0
@@ -547,6 +794,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
@@ -617,9 +865,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0006_Itemget
       takeName: Take 001
+      internalID: 0
       firstFrame: 240
       lastFrame: 300
       wrapMode: 0
@@ -627,6 +877,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -697,9 +948,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0007_Lose
       takeName: Take 001
+      internalID: 0
       firstFrame: 300
       lastFrame: 380
       wrapMode: 0
@@ -707,6 +960,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -777,9 +1031,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0008_Win
       takeName: Take 001
+      internalID: 0
       firstFrame: 400
       lastFrame: 480
       wrapMode: 0
@@ -787,6 +1043,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -857,9 +1114,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0009_Fly_Idle
       takeName: Take 001
+      internalID: 0
       firstFrame: 500
       lastFrame: 577
       wrapMode: 0
@@ -867,6 +1126,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
@@ -937,9 +1197,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0010_Fly_Straight
       takeName: Take 001
+      internalID: 0
       firstFrame: 600
       lastFrame: 660
       wrapMode: 0
@@ -947,6 +1209,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1017,9 +1280,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0011_Fly_Left
       takeName: Take 001
+      internalID: 0
       firstFrame: 700
       lastFrame: 760
       wrapMode: 0
@@ -1027,6 +1292,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1097,9 +1363,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0013_Fly_Up
       takeName: Take 001
+      internalID: 0
       firstFrame: 900
       lastFrame: 960
       wrapMode: 0
@@ -1107,6 +1375,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1177,9 +1446,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0014_Fly_Down
       takeName: Take 001
+      internalID: 0
       firstFrame: 1000
       lastFrame: 1060
       wrapMode: 0
@@ -1187,6 +1458,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1257,9 +1529,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0015_Fly_Circle
       takeName: Take 001
+      internalID: 0
       firstFrame: 1080
       lastFrame: 1159
       wrapMode: 0
@@ -1267,6 +1541,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
@@ -1337,9 +1612,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0016_Fly_Turnback
       takeName: Take 001
+      internalID: 0
       firstFrame: 1170
       lastFrame: 1290
       wrapMode: 0
@@ -1347,6 +1624,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
@@ -1417,16 +1695,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0050_Pose_Cute
       takeName: Take 001
+      internalID: 0
       firstFrame: 1301
-      lastFrame: 1301.09998
+      lastFrame: 1301.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1497,16 +1778,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0051_Pose_Hello
       takeName: Take 001
+      internalID: 0
       firstFrame: 1302
-      lastFrame: 1302.09998
+      lastFrame: 1302.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1577,16 +1861,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0052_Pose_Ready
       takeName: Take 001
+      internalID: 0
       firstFrame: 1303
-      lastFrame: 1303.09998
+      lastFrame: 1303.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1657,16 +1944,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0053_Pose_Stop
       takeName: Take 001
+      internalID: 0
       firstFrame: 1304
-      lastFrame: 1304.09998
+      lastFrame: 1304.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1737,16 +2027,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0054_Pose_Bow
       takeName: Take 001
+      internalID: 0
       firstFrame: 1305
-      lastFrame: 1305.09998
+      lastFrame: 1305.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1817,16 +2110,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0055_Pose_Armcrossed
       takeName: Take 001
+      internalID: 0
       firstFrame: 1306
-      lastFrame: 1306.09998
+      lastFrame: 1306.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1897,16 +2193,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0056_Pose_Please
       takeName: Take 001
+      internalID: 0
       firstFrame: 1307
-      lastFrame: 1307.09998
+      lastFrame: 1307.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1977,16 +2276,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0057_Pose_Sit
       takeName: Take 001
+      internalID: 0
       firstFrame: 1308
-      lastFrame: 1308.09998
+      lastFrame: 1308.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -2057,16 +2359,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0058_Pose_Laydown
       takeName: Take 001
+      internalID: 0
       firstFrame: 1309
-      lastFrame: 1309.09998
+      lastFrame: 1309.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -2137,16 +2442,19 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0059_Pose_Romance
       takeName: Take 001
+      internalID: 0
       firstFrame: 1310
-      lastFrame: 1310.09998
+      lastFrame: 1310.1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -2217,9 +2525,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: 0012_Fly_Right
       takeName: Take 001
+      internalID: 0
       firstFrame: 800
       lastFrame: 860
       wrapMode: 0
@@ -2227,6 +2537,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
@@ -2297,32 +2608,56 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: .100000001
+    globalScale: 0.1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 0
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
-    splitTangentsAcrossUV: 1
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 4
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
+    serializedVersion: 3
     human:
     - boneName: hip
       humanName: Hips
@@ -2462,152 +2797,160 @@ ModelImporter:
         modified: 0
     skeleton:
     - name: SD_QUERY_01(Clone)
+      parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: SD_QUERY_01
-      position: {x: -0, y: -.00333691016, z: -.0359273814}
+      parentName: 
+      position: {x: -0, y: -0.0033369102, z: -0.03592738}
       rotation: {x: 0, y: -0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: body
-      position: {x: -0, y: .00333691016, z: .0359273814}
+      parentName: 
+      position: {x: -0, y: 0.0033369102, z: 0.03592738}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: earphone
-      position: {x: -0, y: .00333691016, z: .0359273814}
+      parentName: 
+      position: {x: -0, y: 0.0033369102, z: 0.03592738}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: face
-      position: {x: -0, y: .00333691016, z: .0359273814}
+      parentName: 
+      position: {x: -0, y: 0.0033369102, z: 0.03592738}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: hair
-      position: {x: -0, y: .00333691016, z: .0359273814}
+      parentName: 
+      position: {x: -0, y: 0.0033369102, z: 0.03592738}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: hair_top
-      position: {x: -0, y: .00333691016, z: .0359273814}
+      parentName: 
+      position: {x: -0, y: 0.0033369102, z: 0.03592738}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: hat_defo
-      position: {x: -0, y: .00333691016, z: .0359273814}
+      parentName: 
+      position: {x: -0, y: 0.0033369102, z: 0.03592738}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: leg
-      position: {x: -0, y: .00333691016, z: .0359273814}
+      parentName: 
+      position: {x: -0, y: 0.0033369102, z: 0.03592738}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: SD_QUERY_01_Reference
+      parentName: 
       position: {x: 0, y: 0, z: 0}
-      rotation: {x: -.00335624279, y: 0, z: -0, w: .999994397}
+      rotation: {x: -0.0033562428, y: 0, z: -0, w: 0.9999944}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: hip
-      position: {x: -.00137315679, y: .266983449, z: .000767189602}
-      rotation: {x: 0, y: -0, z: -.707106829, w: .707106829}
+      parentName: 
+      position: {x: -0.0013731568, y: 0.26698345, z: 0.0007671896}
+      rotation: {x: 0, y: -0, z: -0.7071068, w: 0.7071068}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: R_leg
-      position: {x: .0186583344, y: .0341592245, z: 0}
-      rotation: {x: 0, y: 0, z: .99983573, w: .0181258135}
+      parentName: 
+      position: {x: 0.018658334, y: 0.034159224, z: 0}
+      rotation: {x: 0, y: 0, z: 0.9998357, w: 0.018125813}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: R_leg2
-      position: {x: -.120080903, y: 2.02615707e-16, z: 0}
-      rotation: {x: 0, y: -0, z: -.0114243235, w: .999934733}
+      parentName: 
+      position: {x: -0.1200809, y: 2.0261571e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0.011424324, w: 0.99993473}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: R_foot
-      position: {x: -.105263256, y: 3.38618017e-16, z: 0}
-      rotation: {x: 0, y: 0, z: .999563396, w: -.0295470674}
+      parentName: 
+      position: {x: -0.105263256, y: 3.3861802e-16, z: 0}
+      rotation: {x: 0, y: 0, z: 0.9995634, w: -0.029547067}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: L_leg
-      position: {x: .0205236506, y: -.0342356972, z: 0}
-      rotation: {x: -.0234182309, y: .999725759, z: -6.26495015e-17, w: -5.97815936e-17}
+      parentName: 
+      position: {x: 0.02052365, y: -0.034235697, z: 0}
+      rotation: {x: -0.023418231, y: 0.99972576, z: -6.26495e-17, w: -5.9781594e-17}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: L_leg2
-      position: {x: -.119511306, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: .00535590621, w: .999985695}
+      parentName: 
+      position: {x: -0.11951131, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0.005355906, w: 0.9999857}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: L_foot
-      position: {x: -.10328155, y: -7.82707254e-16, z: -3.469447e-19}
-      rotation: {x: -.0180635061, y: .999836862, z: -6.23284231e-17, w: -6.01162775e-17}
+      parentName: 
+      position: {x: -0.10328155, y: -7.8270725e-16, z: -3.469447e-19}
+      rotation: {x: -0.018063506, y: 0.99983686, z: -6.232842e-17, w: -6.011628e-17}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: spine
-      position: {x: -.0398547351, y: 8.67361738e-18, z: 0}
+      parentName: 
+      position: {x: -0.039854735, y: 8.673617e-18, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: upper
-      position: {x: -.0831255913, y: 1.85615409e-17, z: 0}
+      parentName: 
+      position: {x: -0.08312559, y: 1.8561541e-17, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: head
-      position: {x: -.0352999084, y: 7.97972782e-18, z: 0}
+      parentName: 
+      position: {x: -0.03529991, y: 7.979728e-18, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: ahoge
-      position: {x: -.396269947, y: 8.84708973e-17, z: .0243651979}
-      rotation: {x: 0, y: 0, z: .707106829, w: .707106829}
+      parentName: 
+      position: {x: -0.39626995, y: 8.84709e-17, z: 0.024365198}
+      rotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: L_arm
-      position: {x: .000220654649, y: -.0449277125, z: 0}
-      rotation: {x: 0, y: 0, z: .71344763, w: .700708568}
+      parentName: 
+      position: {x: 0.00022065465, y: -0.044927713, z: 0}
+      rotation: {x: 0, y: 0, z: 0.71344763, w: 0.70070857}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: L_arm2
-      position: {x: -.0734611079, y: 4.44089216e-17, z: 0}
-      rotation: {x: 0, y: -0, z: -.0215823222, w: .999767065}
+      parentName: 
+      position: {x: -0.07346111, y: 4.440892e-17, z: 0}
+      rotation: {x: 0, y: -0, z: -0.021582322, w: 0.99976707}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: L_hand
-      position: {x: -.105244279, y: -8.88178433e-17, z: 0}
-      rotation: {x: 0, y: -0, z: -.698158562, w: .715943217}
+      parentName: 
+      position: {x: -0.10524428, y: -8.881784e-17, z: 0}
+      rotation: {x: 0, y: -0, z: -0.69815856, w: 0.7159432}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: R_arm
-      position: {x: .000882358931, y: .0470491908, z: 0}
-      rotation: {x: -.703825653, y: .710372746, z: -8.65946796e-17, w: -4.00893446e-19}
+      parentName: 
+      position: {x: 0.00088235893, y: 0.04704919, z: 0}
+      rotation: {x: -0.70382565, y: 0.71037275, z: -8.659468e-17, w: -4.0089345e-19}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: R_arm2
-      position: {x: -.0714671314, y: 4.44089216e-17, z: 0}
-      rotation: {x: 0, y: -0, z: -.00462948065, w: .999989271}
+      parentName: 
+      position: {x: -0.07146713, y: 4.440892e-17, z: 0}
+      rotation: {x: 0, y: -0, z: -0.0046294807, w: 0.9999893}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: R_hand
-      position: {x: -.105210982, y: 8.8817842e-16, z: 0}
-      rotation: {x: .707106829, y: -.707106829, z: 8.65956127e-17, w: 0}
+      parentName: 
+      position: {x: -0.10521098, y: 8.881784e-16, z: 0}
+      rotation: {x: 0.7071068, y: -0.7071068, z: 8.659561e-17, w: 0}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
-    armTwist: .5
-    foreArmTwist: .5
-    upperLegTwist: .5
-    legTwist: .5
-    armStretch: .0500000007
-    legStretch: .0500000007
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
     feetSpacing: 0
+    globalScale: 0.1
     rootMotionBoneName: 
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

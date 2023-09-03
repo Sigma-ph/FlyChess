@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using DG.Tweening;
 
 public class DiceController : MonoBehaviour
 {
@@ -36,11 +37,12 @@ public class DiceController : MonoBehaviour
     }
 
     public void StartToRoll()
-    {
+     {
         last_time = 0;
         is_rolling = true;
         transform.rotation = UnityEngine.Random.rotation;
         this.GetComponent<Rigidbody>().AddTorque(UnityEngine.Random.insideUnitSphere * 500f);
+        this.GetComponent<Rigidbody>().AddForce(new Vector3(0, 2000, -200));
         last_position = transform.position;
     }
     public Task<int> GetDiceValue()
@@ -48,6 +50,14 @@ public class DiceController : MonoBehaviour
         dice_handle = new TaskCompletionSource<int>();
 
         return dice_handle.Task;
+    }
+
+    public async Task SetDiceAppear(Vector3 pos)
+    {
+        this.transform.position = pos;
+        this.transform.DOScale(new Vector3(0, 0, 0), 0.2f).From();
+        this.GetComponent<Rigidbody>().AddForce(new Vector3(0, 200, 0));
+        await Task.Delay(300);
     }
 
     int CalculateDiceValue()

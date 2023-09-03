@@ -13,8 +13,6 @@ public class CameraController : MonoBehaviour
     Camera c_camera;
     private Vector3 init_position;
     private Quaternion init_rotation;
-    // 缓动曲线
-    public AnimationCurve easingCurve;
 
     // 转向
     private bool is_turning = false;

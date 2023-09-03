@@ -19,6 +19,7 @@ public class LevelScript : MonoBehaviour
     public Camera main_camera;
     public Camera uiCamera;
     private CameraController main_camera_controller;
+    public GameObject diceGirl;
 
     private List<int> human_player_index = new List<int>();
     private List<PlayerColor> players = new List<PlayerColor>();
@@ -133,7 +134,6 @@ public class LevelScript : MonoBehaviour
             chess_board_mgr.PawnRemoveFromBoard(i);
             playerPawnCount[cur_player_index] -= 1;
         }
-        
 
         bool first = true;
         while (true)
@@ -148,16 +148,17 @@ public class LevelScript : MonoBehaviour
             if (!first)
             {
                 ChangePlayer();
+                if (playerPawnCount[cur_player_index] == 0)
+                {
+                    continue;
+                }
+                await PlaySwitchNote();
             }
             else
             {
                 first = false;
             }
-            if (playerPawnCount[cur_player_index] == 0)
-            {
-                continue;
-            }
-            await PlaySwitchNote();
+            
 
 
             // 摇骰子
@@ -268,6 +269,7 @@ public class LevelScript : MonoBehaviour
         chess_board_mgr.InitGameMode(players);
         pawn_confirm_button.gameObject.SetActive(false);
         main_camera_controller = main_camera.GetComponent<CameraController>();
+        cur_player_image.texture = player_textures[cur_player_index];
         GameMainLoop();
         
     }
@@ -320,12 +322,23 @@ public class LevelScript : MonoBehaviour
 
     public async Task<int> PlayerRollDice()
     {
+        await dice.GetComponent<DiceController>().SetDiceAppear(GameObject.Find("dice_init_pos").transform.position);
+        Vector3 target_pos = dice.transform.position;
+        target_pos.z += 1.8f;
+        await diceGirl.GetComponent<DiceGrilController>().MoveToPositionXZ(target_pos, 2);
+        main_camera_controller.FocusOnTarget(dice);
+        await main_camera_controller.MoveToPosition(GameObject.Find("throw_dice_camera_pos"), 1.5f);
+        
+
         // 设置按钮可交互状态
         diceButtonParticle.gameObject.SetActive(true);
         diceButtonParticle.Play();
         roll_dice_button.interactable = true;
         rollDiceButtonClickTCS = new TaskCompletionSource<bool>();
         await rollDiceButtonClickTCS.Task;
+
+        diceGirl.GetComponent<DiceGrilController>().DoThrowAction();
+        await Task.Delay(400);
 
         // 设置按钮不可交互状态
         roll_dice_button.interactable = false;
@@ -335,13 +348,14 @@ public class LevelScript : MonoBehaviour
         // 抛骰子
         int dice_value = await RollADice();
         await main_camera_controller.LookAtDiceValue(dice);
+        diceGirl.GetComponent<DiceGrilController>().MoveToInitTrans(2);
         return dice_value;
     }
 
     private async Task<int> RollADice()
     {
         // 获取骰子的点数
-        dice.transform.position = dice_anchor.transform.position;
+        //dice.transform.position = dice_anchor.transform.position;
         DiceController dice_con = dice.GetComponent<DiceController>();
         dice_con.StartToRoll();
         int dice_value = await dice_con.GetDiceValue();
