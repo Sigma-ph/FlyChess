@@ -8,6 +8,7 @@ using UnityEngine.Rendering;
 using System.Linq;
 using System;
 using DG.Tweening;
+using RoomConfig;
 
 public class LevelScript : MonoBehaviour
 {
@@ -20,11 +21,6 @@ public class LevelScript : MonoBehaviour
     public Camera uiCamera;
     private CameraController main_camera_controller;
     public GameObject diceGirl;
-
-    private List<int> human_player_index = new List<int>();
-    private List<PlayerColor> players = new List<PlayerColor>();
-    private List<int> playerPawnCount = new List<int>();
-    private int cur_player_index = 0;
 
     // 交互完成事件
     private TaskCompletionSource<int> pawnChoseTCS;
@@ -51,7 +47,7 @@ public class LevelScript : MonoBehaviour
     public bool diceSixForever = true;
 
     // 游戏结束排名面板
-    private List<List<int>> playerSteps = new List<List<int>>();
+    
     public List<Text> rankTexts;
     public List<RawImage> rankPlayerIcons;
     public List<Text> rankStepTexts;
@@ -59,12 +55,8 @@ public class LevelScript : MonoBehaviour
 
     private void ChangePlayer()
     {
-        ++cur_player_index;
-        if (cur_player_index >= players.Count)
-        {
-            cur_player_index = 0;
-        }
-        cur_player_image.texture = player_textures[cur_player_index];
+        int curPlayerIdx = RoomHost.roomInfo.ChangeCharactor();
+        cur_player_image.texture = player_textures[curPlayerIdx];
     }
 
     private async Task PlaySwitchNote()
@@ -92,15 +84,16 @@ public class LevelScript : MonoBehaviour
     private bool CheckGameEnd()
     {
         int remain = 0;
-        foreach (int idx in human_player_index)
+        
+        foreach (int idx in RoomHost.roomInfo.playerIdxes)
         {
-            remain += playerPawnCount[idx];
+            remain += RoomHost.roomInfo.charactorPawnCount[idx];
         }
         if (remain != 0)
         {
             return false;
         }
-
+        List<List<int>> playerSteps = RoomHost.roomInfo.charactorSteps;
         playerSteps.Sort((List<int> a, List<int> b) =>
         {
             return a[1] - b[1];
@@ -110,7 +103,7 @@ public class LevelScript : MonoBehaviour
         int rank = 0;
         foreach(List<int> p in playerSteps)
         {
-            if (!human_player_index.Contains(p[0]))
+            if (!RoomHost.roomInfo.playerIdxes.Contains(p[0]))
             {
                 continue;
             }
@@ -126,18 +119,119 @@ public class LevelScript : MonoBehaviour
         playerIconParticle.gameObject.SetActive(false);
         return true;
     }
-    async private Task GameMainLoop()
+
+    private async Task<int> CharactorRollDiceOffline()
     {
-        chess_board_mgr.Debug_PawnPlaceTo(3, 11);
+        int dice_value;
+        if (RoomHost.roomInfo.playerIdxes.Contains(RoomHost.roomInfo.curActCharactorIdx))
+        {
+            RollDiceInfo dice_info = await PlayerRollDice();
+            dice_value = dice_info.dice_value;
+        }
+        else
+        {
+            RollDiceInfo dice_info = await AIRollDice();
+            dice_value = dice_info.dice_value;
+        }
+        return dice_value;
+    }
+
+    string test(RollDiceInfo dice_info)
+    {
+        string ret = string.Empty;
         for(int i=0; i<3; ++i)
         {
-            chess_board_mgr.PawnRemoveFromBoard(i);
-            playerPawnCount[cur_player_index] -= 1;
+            ret += dice_info.rotation_power[i] + ", ";
         }
+        for(int i=0; i<3; ++i)
+        {
+            ret += dice_info.compaction_power[i] + ", ";
+        }
+        return ret;
+    }
+
+    private async Task<int> CharactorRollDiceOnline()
+    {
+        int dice_value=0;
+        if (RoomHost.roomInfo.localIdx == RoomHost.roomInfo.curActCharactorIdx)
+        {
+            RollDiceInfo dice_info = await PlayerRollDice();
+            dice_value = dice_info.dice_value;
+            Debug.Log("send: " + test(dice_info));
+            await RoomHost.SendRollDiceInfoToOthers(dice_info);
+        }
+        else if(RoomHost.roomInfo.isRoomHost && RoomHost.roomInfo.aiIdxes.Contains(RoomHost.roomInfo.curActCharactorIdx))
+        {
+            RollDiceInfo dice_info = await AIRollDice();
+            dice_value = dice_info.dice_value;
+            Debug.Log("send: " + test(dice_info));
+            await RoomHost.SendRollDiceInfoToOthers(dice_info);
+        }
+        else
+        {
+            RollDiceInfo dice_info = await RoomHost.GetRollDiceInfoFromOthers();
+            Debug.Log("received: " + test(dice_info));
+            dice_value = dice_info.dice_value;
+            await FakeRollDice(dice_value);
+        }
+        return dice_value;
+    }
+
+    private async Task<int> OfflineChoosePawn()
+    {
+        int pawnId;
+        if (RoomHost.roomInfo.playerIdxes.Contains(RoomHost.roomInfo.curActCharactorIdx))
+        {
+            pawnId = await PlayerChoosePawn();
+        }
+        else
+        {
+            pawnId = AIChoosePawn(cur_avai_pawnidx);
+        }
+        return pawnId;
+    }
+
+    private async Task<int> OnlineChoosePawn()
+    {
+        int pawnId;
+        if (RoomHost.roomInfo.localIdx == RoomHost.roomInfo.curActCharactorIdx)
+        {
+            pawnId = await PlayerChoosePawn();
+            await RoomHost.SendPawnChooseInfoToOthers(pawnId);
+        }
+        else if (RoomHost.roomInfo.isRoomHost && RoomHost.roomInfo.aiIdxes.Contains(RoomHost.roomInfo.curActCharactorIdx))
+        {
+            pawnId = AIChoosePawn(cur_avai_pawnidx);
+            await RoomHost.SendPawnChooseInfoToOthers(pawnId);
+        }
+        else
+        {
+            PawnChooseInfo pawnChooseInfo = await RoomHost.GetPawnChooseInfoFromOthers();
+            pawnId = pawnChooseInfo.choosenPawnID;
+        }
+
+        return pawnId;
+    }
+
+    async private Task GameMainLoop()
+    {
+        //chess_board_mgr.Debug_PawnPlaceTo(3, 11);
+        //chess_board_mgr.Debug_PawnPlaceTo(4, 53);
+        //for(int i=0; i<3; ++i)
+        //{
+        //    chess_board_mgr.PawnRemoveFromBoard(i);
+        //    RoomHost.roomInfo.charactorPawnCount[0] -= 1;
+        //}
+        //for (int i = 5; i < 8; ++i)
+        //{
+        //    chess_board_mgr.PawnRemoveFromBoard(i);
+        //    RoomHost.roomInfo.charactorPawnCount[1] -= 1;
+        //}
 
         bool first = true;
         while (true)
         {
+
             // 检查游戏是否结束
             if (CheckGameEnd())
             {
@@ -148,7 +242,7 @@ public class LevelScript : MonoBehaviour
             if (!first)
             {
                 ChangePlayer();
-                if (playerPawnCount[cur_player_index] == 0)
+                if (RoomHost.roomInfo.charactorPawnCount[RoomHost.roomInfo.curActCharactorIdx] == 0)
                 {
                     continue;
                 }
@@ -158,36 +252,35 @@ public class LevelScript : MonoBehaviour
             {
                 first = false;
             }
-            
-
 
             // 摇骰子
             int dice_value;
-            if (human_player_index.Contains(cur_player_index))
+            if(RoomHost.roomInfo.roomType == RoomType.OfflineRoom)
             {
-                dice_value = await PlayerRollDice();
+                dice_value = await CharactorRollDiceOffline();
             }
             else
             {
-                dice_value = await AIRollDice();
+                dice_value = await CharactorRollDiceOnline();
             }
 
+
             // 玩家摇骰子的次数加一
-            playerSteps[cur_player_index][1] += 1;
+            RoomHost.roomInfo.charactorSteps[RoomHost.roomInfo.curActCharactorIdx][1] += 1;
 
             // 获取玩家能够选择的棋子
-            cur_avai_pawnidx = chess_board_mgr.GetAvailablePawnIdx(players[cur_player_index], dice_value);
+            cur_avai_pawnidx = chess_board_mgr.GetAvailablePawnIdx(RoomHost.roomInfo.charactorPawnColor[RoomHost.roomInfo.curActCharactorIdx], dice_value);
             int pawn_id;
             if (cur_avai_pawnidx.Count != 0)
             {
                 // 获取玩家选择的棋子
-                if(human_player_index.Contains(cur_player_index))
+                if(RoomHost.roomInfo.roomType == RoomType.OfflineRoom)
                 {
-                    pawn_id = await PlayerChoosePawn();
+                    pawn_id = await OfflineChoosePawn();
                 }
                 else
                 {
-                    pawn_id = AIChoosePawn(cur_avai_pawnidx);
+                    pawn_id = await OnlineChoosePawn();
                 }
             }
             else
@@ -200,13 +293,14 @@ public class LevelScript : MonoBehaviour
             if(!pawn_on_walkpath)
             {
                 await chess_board_mgr.PawnMoveToStart(pawn_id);
-                if(human_player_index.Contains(cur_player_index))
+                // 摇骰子
+                if (RoomHost.roomInfo.roomType == RoomType.OfflineRoom)
                 {
-                    dice_value = await PlayerRollDice();
+                    dice_value = await CharactorRollDiceOffline();
                 }
                 else
                 {
-                    dice_value = await AIRollDice();
+                    dice_value = await CharactorRollDiceOnline();
                 }
             }
             await chess_board_mgr.PawnMoveForward(pawn_id, dice_value);
@@ -229,22 +323,18 @@ public class LevelScript : MonoBehaviour
             {
                 await Task.Delay(1000);
                 chess_board_mgr.PawnRemoveFromBoard(pawn_id);
-                playerPawnCount[cur_player_index] -= 1;
+                RoomHost.roomInfo.charactorPawnCount[RoomHost.roomInfo.curActCharactorIdx] -= 1;
             }
-
-            
-
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        int playerCount=1, aiCount=1;
-        if (PlayerPrefs.HasKey("playerCount") && PlayerPrefs.HasKey("aiCount"))
+        int playerCount=2, aiCount=1;
+        if (!RoomHost.roomInfo.params_set)
         {
-            playerCount = PlayerPrefs.GetInt("playerCount");
-            aiCount = PlayerPrefs.GetInt("aiCount");
+            RoomHost.roomInfo.CreateOfflineRoom(playerCount, aiCount);
         }
 
         List<string> text_name = new List<string> { "red_pawn", "green_pawn", "blue_pawn", "yellow_pawn" };
@@ -253,23 +343,12 @@ public class LevelScript : MonoBehaviour
             Texture texture = Resources.Load<Texture>("images/" + text_name[i]);
             player_textures.Add(texture);
         }
+       
         
-        
-        for (int i=0; i<playerCount+aiCount; ++i)
-        {
-            players.Add((PlayerColor)i);
-            playerPawnCount.Add(4);
-            playerSteps.Add(new List<int> { i, 0 });
-        }
-        for(int i=0; i<playerCount; ++i)
-        {
-            human_player_index.Add(i);
-        }
-        
-        chess_board_mgr.InitGameMode(players);
+        chess_board_mgr.InitGameMode(RoomHost.roomInfo.charactorPawnColor);
         pawn_confirm_button.gameObject.SetActive(false);
         main_camera_controller = main_camera.GetComponent<CameraController>();
-        cur_player_image.texture = player_textures[cur_player_index];
+        cur_player_image.texture = player_textures[0];
         GameMainLoop();
         
     }
@@ -279,7 +358,6 @@ public class LevelScript : MonoBehaviour
         PawnController pawn_con = choosen_pawn.GetComponent<PawnController>();
         if (pawn_con == null) return;
         pawnChoseTCS.TrySetResult(pawn_con.pawn_id);
-
     }
 
     public int AIChoosePawn(List<int> pawn_list)
@@ -313,14 +391,34 @@ public class LevelScript : MonoBehaviour
         return choosen_pawnid;
     } 
 
-    public async Task<int> AIRollDice()
+    public async Task<RollDiceInfo> AIRollDice()
     {
-        int dice_value = await RollADice();
+        await dice.GetComponent<DiceController>().SetDiceAppear(GameObject.Find("dice_init_pos").transform.position);
+        RollDiceInfo dice_info = await RollADice();
         await main_camera_controller.LookAtDiceValue(dice);
-        return dice_value;
+        return dice_info;
     }
 
-    public async Task<int> PlayerRollDice()
+    public async Task FakeRollDice(int dice_value)
+    {
+        await dice.GetComponent<DiceController>().SetDiceAppear(GameObject.Find("dice_init_pos").transform.position);
+        Vector3 target_pos = dice.transform.position;
+        target_pos.z += 1.8f;
+        await diceGirl.GetComponent<DiceGrilController>().MoveToPositionXZ(target_pos, 2);
+
+        // 播放女孩抛骰子动画
+        diceGirl.GetComponent<DiceGrilController>().DoThrowAction();
+        await Task.Delay(400);
+
+        // 播放扔骰子动画
+        DiceController dice_con = dice.GetComponent<DiceController>();
+        dice_con.FakeRollDice(dice_value);
+        await dice_con.GetDiceValue();
+
+        diceGirl.GetComponent<DiceGrilController>().MoveToInitTrans(2);
+    }
+
+    public async Task<RollDiceInfo> PlayerRollDice()
     {
         await dice.GetComponent<DiceController>().SetDiceAppear(GameObject.Find("dice_init_pos").transform.position);
         Vector3 target_pos = dice.transform.position;
@@ -337,31 +435,39 @@ public class LevelScript : MonoBehaviour
         rollDiceButtonClickTCS = new TaskCompletionSource<bool>();
         await rollDiceButtonClickTCS.Task;
 
-        diceGirl.GetComponent<DiceGrilController>().DoThrowAction();
-        await Task.Delay(400);
-
         // 设置按钮不可交互状态
         roll_dice_button.interactable = false;
         diceButtonParticle.Pause();
         diceButtonParticle.gameObject.SetActive(false);
-        
+
+        // 播放抛骰子动画
+        diceGirl.GetComponent<DiceGrilController>().DoThrowAction();
+        await Task.Delay(400);
+
         // 抛骰子
-        int dice_value = await RollADice();
+        RollDiceInfo dice_info = await RollADice();
         await main_camera_controller.LookAtDiceValue(dice);
         diceGirl.GetComponent<DiceGrilController>().MoveToInitTrans(2);
-        return dice_value;
+        return dice_info;
     }
 
-    private async Task<int> RollADice()
+    private async Task<RollDiceInfo> RollADice()
     {
         // 获取骰子的点数
         //dice.transform.position = dice_anchor.transform.position;
         DiceController dice_con = dice.GetComponent<DiceController>();
-        dice_con.StartToRoll();
+        List<Vector3> ret = dice_con.StartToRoll();
         int dice_value = await dice_con.GetDiceValue();
-        Debug.Log(dice_value);
         dice_value = diceSixForever ? 6 : dice_value;
-        return dice_value;
+
+        RollDiceInfo dice_info = new RollDiceInfo();
+        dice_info.rotation_power = new List<float> { ret[0].x, ret[0].y, ret[0].z };
+        dice_info.compaction_power = new List<float> { ret[1].x, ret[1].y, ret[1].z };
+        dice_info.dice_value = dice_value;
+        dice_info.player_id = RoomHost.roomInfo.curActCharactorIdx;
+        Debug.Log(dice_value);
+        
+        return dice_info;
     }
 
     public void OnRollDiceBtnClick()
